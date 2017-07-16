@@ -1,5 +1,6 @@
 package dao;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,14 +17,30 @@ public class DBConnector  extends DBManager implements HVServices{
 	// Miquel 
 	@Override
 	public void insert(Person owner, Mascota mascota) {
+		connect();
+		   EntityManager entityManager = getEntityManager();  
+		   
+		        entityManager.getTransaction().begin();
+		        owner.getMascotas().add(mascota);
+		        entityManager.persist(owner);
+		        mascota.setOwner(owner);
 
+		        entityManager.getTransaction().commit();
+
+		close();
 		
 	}
 
 	// Jordi 
 	@Override
 	public void remove(Mascota mascota) {
-		// TODO Auto-generated method stub
+		connect();
+			EntityManager entiManager = getEntityManager();
+			entiManager.getTransaction().begin();
+			Mascota  recovered = entiManager.find(Mascota.class, mascota.getId());
+			entiManager.remove(recovered);
+			entiManager.getTransaction().commit();
+		close();
 		
 	}
 
@@ -45,7 +62,6 @@ public class DBConnector  extends DBManager implements HVServices{
 	@Override
 	public void update(Person person) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	//Toni //Eduar 
@@ -58,8 +74,11 @@ public class DBConnector  extends DBManager implements HVServices{
 	//Eduard 
 	@Override
 	public HashSet<Person> findLikeByOwnerName(String strLike) {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<Person> list = selectLike(Person.class, "name", strLike);  
+		
+		HashSet<Person> set = new HashSet<>(list);
+		return set;
+		
 	}
 
 	//Luis 
@@ -75,17 +94,19 @@ public class DBConnector  extends DBManager implements HVServices{
 	//Dorian 
 	@Override
 	public HashSet<Person> selectAllPerson() { 
-		//connect();
-		//	HashSet<Person> list = new HashSet<>(selectAll(Person.class));
-		//close();
-		return null;//list;
+		connect();
+			HashSet<Person> list = new HashSet<Person>(selectAll(Person.class));
+		close();
+		return list;
 	}
 
 	//Dorian 
 	@Override
 	public HashSet<Mascota> selectAllMascota() {
-		// TODO Auto-generated method stub
-		return null;
+		connect();
+			HashSet<Mascota> list = new HashSet<Mascota>(selectAll(Mascota.class));
+		close();
+		return list;
 	}
 
 }

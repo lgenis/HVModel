@@ -67,12 +67,13 @@ public class TestRemove {
 			dbManager.connect();		
 					Person results1 = (Person) dbManager.find(Person.class, person1.getId());
 					Person results2 = (Person) dbManager.find(Person.class, person2.getId());
+					Mascota resultMasc2 = (Mascota) dbManager.find(Mascota.class, mascota2.getId());
 			dbManager.close();
 			
 			
 			Assert.assertEquals(2, results1.getMascotas().size());
 			Assert.assertEquals(1, results2.getMascotas().size());
-		
+			
 			
 			DBConnector dbConn = new DBConnector(); 	
 			dbConn.remove(results1);
@@ -82,6 +83,17 @@ public class TestRemove {
 			Assert.assertEquals(1, dbManager.selectAll(Person.class).size());
 			Assert.assertEquals(1, dbManager.selectAll(Mascota.class).size());
 			Assert.assertEquals(0, dbManager.selectEqual(Mascota.class, "owner.name", "Federico").size());
+			
+			dbManager.close();
+			
+			//DBConnector dbConn = new DBConnector(); 	
+			dbConn.remove(resultMasc2);
+			
+			dbManager.connect();	
+			
+			Assert.assertEquals(1, dbManager.selectAll(Person.class).size());
+			Assert.assertEquals(0, dbManager.selectAll(Mascota.class).size());
+			
 			
 			dbManager.close();
 			
