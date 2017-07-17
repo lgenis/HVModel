@@ -28,20 +28,24 @@ public class Mascota {
 	
 	public int getId() {
 		return id;
-	}
+	}/*
 	public void setId(int id) {
 		this.id = id;
-	}
+	}*/
 	public String getTypeClass() {
 		return typeClass;
 	}
 	public void setTypeClass(String typeClass) {
+		if (typeClass==null)
+			throw new RuntimeException("null typeClass entered in setTypeClass");
 		this.typeClass = typeClass;
 	}
 	public Person getOwner() {
 		return owner;
 	}
 	public void setOwner(Person owner) {
+		//if (owner==null)
+		//	throw new RuntimeException("null set entered in setOwner");
 		this.owner = owner;
 	}
 	public String getName() {

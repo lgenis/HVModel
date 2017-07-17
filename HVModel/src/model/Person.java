@@ -12,9 +12,6 @@ import javax.persistence.OneToMany;
 
 @Entity
 public class Person {
-	
-	
-
 
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,6 +21,7 @@ public class Person {
 	private String phone;
 	private String email;
 	private String address;
+	
 	
 	@OneToMany(mappedBy="owner",cascade = CascadeType.ALL, orphanRemoval=true)
 	private Set<Mascota> mascotas = new HashSet<Mascota>();
@@ -73,6 +71,8 @@ public class Person {
 	}
 
 	public void setMascotas(Set<Mascota> mascotas) {
+		//if (mascotas==null)
+		//	throw new RuntimeException("null set entered in setMascotas");
 		this.mascotas = mascotas;
 	}
 	public int getId() {

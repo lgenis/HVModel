@@ -1,5 +1,7 @@
 package test;
 
+import java.util.HashSet;
+
 import javax.persistence.EntityManager;
 
 import org.junit.Assert;
@@ -58,7 +60,13 @@ public class TestUpdate {
 		person2update.setName("Peter");
 		person2update.setSurname("Parra");
 		
+		//person2update.setMascotas(null); 
+		person2update.getMascotas().addAll(new HashSet());
+		
 		masc2update.setName("Perico");
+		
+	
+		
 		//masc2update.setOwner(person2update);
 		
 		//Update db

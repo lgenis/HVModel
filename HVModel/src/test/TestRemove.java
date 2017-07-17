@@ -99,6 +99,64 @@ public class TestRemove {
 			
 	}
 	
+	@Test(expected=RuntimeException.class)
+	public void testNullRemove(){
+		boolean result = true;
+		DBManager dbManager = 
+				new DBManager();
+		Mascota mascota1 = getMockMascota("Felix");
+		Mascota mascota11 =null;
+		Person person1 = getMockPerson("Federico", "Fernandez");
+
+		
+	
+		
+		
+	
+			dbManager.connect();
+			   EntityManager entityManager = dbManager.getEntityManager();  
+			   
+			        entityManager.getTransaction().begin();
+				
+			        entityManager.persist(person1);			      
+				        person1.getMascotas().add(mascota1); 
+				        person1.getMascotas().add(mascota11); 
+				        
+				        mascota1.setOwner(person1);
+						mascota11.setOwner(person1);
+				        
+
+				
+			        entityManager.getTransaction().commit();
+
+			dbManager.close();
+		
+			
+			
+			dbManager.connect();		
+					Person results1 = (Person) dbManager.find(Person.class, person1.getId());
+
+			dbManager.close();
+			
+			
+			Assert.assertEquals(1, results1.getMascotas().size());
+
+			
+			
+			DBConnector dbConn = new DBConnector(); 	
+			dbConn.remove(results1);
+				
+			dbManager.connect();	
+		
+			Assert.assertEquals(0, dbManager.selectAll(Person.class).size());
+			Assert.assertEquals(0, dbManager.selectAll(Mascota.class).size());
+
+			
+			dbManager.close();
+			
+
+			
+	}
 	
 	private Person getMockPerson(String name, String surname){
 		Person pers = new Person();

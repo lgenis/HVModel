@@ -17,14 +17,23 @@ public class DBConnector  extends DBManager implements HVServices{
 	// Miquel 
 	@Override
 	public void insert(Person owner, Mascota mascota) {
+		
+		if(owner==null)
+			throw new RuntimeException("Owner cannot be null");
+		if(mascota!=null && mascota.getId()!=0)
+			throw new RuntimeException("La mascota no puede existir");
+		
+		
 		connect();
 		   EntityManager entityManager = getEntityManager();  
 		   
 		        entityManager.getTransaction().begin();
-		        owner.getMascotas().add(mascota);
+		        
 		        entityManager.persist(owner);
-		        mascota.setOwner(owner);
-
+		        if (mascota!=null){
+			        owner.getMascotas().add(mascota);
+			        mascota.setOwner(owner);
+		        }
 		        entityManager.getTransaction().commit();
 
 		close();
@@ -34,6 +43,8 @@ public class DBConnector  extends DBManager implements HVServices{
 	// Jordi 
 	@Override
 	public void remove(Mascota mascota) {
+		if(mascota==null)
+			throw new RuntimeException("Mascota cannot be null");
 		connect();
 			EntityManager entiManager = getEntityManager();
 			entiManager.getTransaction().begin();
@@ -77,6 +88,7 @@ public class DBConnector  extends DBManager implements HVServices{
 			recovered.setAddress(person.getAddress());
 			recovered.setEmail(person.getEmail());
 			entiManager.getTransaction().commit();
+			
 		}catch (IllegalArgumentException e){
 			throw new RuntimeException("Bad argument in find. Wrong class or Id for " + person.getName());
 		}finally{

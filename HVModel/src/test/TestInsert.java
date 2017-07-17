@@ -50,6 +50,44 @@ public class TestInsert {
 		
 	}
 	
+	
+	
+	@Test(expected = RuntimeException.class)
+	public void testNullPerson() {
+		Mascota mascota11 = getMockMascota("Firulais");
+		Person person1 = getMockPerson("Federico", "Fernandez");
+		
+		DBManager dbManager = 
+				new DBManager();
+		
+		dbConnector.insert(null, mascota11);
+		
+	}
+	
+	@Test
+	public void testNullMascota(){
+		Mascota mascota11 = null;
+		Person person1 = getMockPerson("Federico", "Fernandez");
+		
+		DBManager dbManager = 
+				new DBManager();
+		
+		dbConnector.insert(person1, mascota11);
+		
+		dbManager.connect();		
+		Person results1 = (Person) dbManager.find(Person.class, person1.getId());
+		
+		dbManager.close();
+		
+		Assert.assertEquals(person1.getName(), results1.getName());
+		Assert.assertEquals(person1.getSurname(), results1.getSurname());
+		Assert.assertEquals(person1.getPhone(), results1.getPhone());
+		Assert.assertEquals(person1.getAddress(), results1.getAddress());
+		
+	}
+	
+	
+	
 	private Person getMockPerson(String name, String surname){
 		Person pers = new Person();
 		pers.setName(name);
