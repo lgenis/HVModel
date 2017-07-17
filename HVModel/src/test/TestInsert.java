@@ -38,7 +38,14 @@ public class TestInsert {
 		
 		
 		Assert.assertEquals(person1.getName(), results1.getName());
+		Assert.assertEquals(person1.getSurname(), results1.getSurname());
+		Assert.assertEquals(person1.getPhone(), results1.getPhone());
+		Assert.assertEquals(person1.getAddress(), results1.getAddress());
 		Assert.assertEquals(mascota11.getName(), resultMasc1.getName());
+		Assert.assertEquals(mascota11.getHeight(), resultMasc1.getHeight(), 0.1);
+		Assert.assertEquals(mascota11.getWeight(), resultMasc1.getWeight(), 0.1);
+		Assert.assertEquals(mascota11.getLength(), resultMasc1.getLength(), 0.1);
+		
 		
 		
 	}

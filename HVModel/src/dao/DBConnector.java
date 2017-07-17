@@ -62,12 +62,55 @@ public class DBConnector  extends DBManager implements HVServices{
 	@Override
 	public void update(Person person) {
 		// TODO Auto-generated method stub
+		//Runtime exception illegal parameters if not ID
+		if (person.getId()<=0 || person.equals(null)){
+			throw new RuntimeException("Wrong id or null");
+		}
+		connect();
+			EntityManager entiManager = getEntityManager();
+		try{	
+			Person  recovered = entiManager.find(Person.class, person.getId());
+			entiManager.getTransaction().begin();
+			recovered.setName(person.getName());
+			recovered.setSurname(person.getSurname());
+			recovered.setPhone(person.getPhone());
+			recovered.setAddress(person.getAddress());
+			recovered.setEmail(person.getEmail());
+			entiManager.getTransaction().commit();
+		}catch (IllegalArgumentException e){
+			throw new RuntimeException("Bad argument in find. Wrong class or Id for " + person.getName());
+		}finally{
+			close();
+		}
+				
 	}
 
 	//Toni //Eduar 
 	@Override
 	public void update(Mascota mascota) {
 		// TODO Auto-generated method stub
+		//Runtime exception illegal parameters if not ID
+		if (mascota.getId()<=0 || mascota.equals(null)){
+			throw new RuntimeException("Wrong id or null");
+		}
+		connect();
+			EntityManager entiManager = getEntityManager();
+		try{	
+			Mascota  recovered = entiManager.find(Mascota.class, mascota.getId());
+			entiManager.getTransaction().begin();
+			recovered.setName(mascota.getName());
+			recovered.setTypeClass(mascota.getTypeClass());
+			recovered.setHeight(mascota.getHeight());
+			recovered.setWeight(mascota.getWeight());
+			recovered.setLength(mascota.getLength());
+			recovered.setOwner(mascota.getOwner());
+			entiManager.getTransaction().commit();
+			
+		}catch (IllegalArgumentException e){
+			throw new RuntimeException("Bad argument in find. Wrong class or Id for " + mascota.getName());
+		}finally{
+			close();
+		}
 		
 	}
 

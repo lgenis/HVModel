@@ -35,14 +35,15 @@ public class DBManager {
 	public void connect() {
 		entitymanager = getEMF().createEntityManager();
 	}
-
+	
+	@Deprecated
 	public void insert(Object object){			  
 		entitymanager.getTransaction().begin();
 			entitymanager.persist(object);
 		entitymanager.getTransaction().commit(); 
 	}
 
-
+	@Deprecated
 	public void update(Object object) {
 		entitymanager.getTransaction().begin();
 		entitymanager.persist(object);
